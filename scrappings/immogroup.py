@@ -1,7 +1,10 @@
-import requests
 from bs4 import BeautifulSoup
+from selenium import webdriver
+import time
+from selenium.webdriver.chrome.options import Options
+import requests
 
-"""for i in range(630):
+for i in range(630):
     URL = f"https://immogroup.ahouefa.com/biens-acheter/page/{str(i)}/"
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, "html.parser")
@@ -13,28 +16,29 @@ from bs4 import BeautifulSoup
         with open("immogroup.txt", "a") as file:
             file.write(result["href"] + "\n")
             file.close()
-"""
+
 # iterate over the txt file
 with open("immogroup.txt", "r") as file:
     for line in file:
         try:
             URL = f"{str(line)}"
-            print(URL)
-            page = requests.get(URL)
-            soup = BeautifulSoup(page.content, "html.parser")
+            chrome_options = Options()
+            chrome_options.add_argument("--headless")
+            driver = webdriver.Chrome(options=chrome_options)
+            driver.get(URL)
+            time.sleep(5)
+            page = driver.page_source
+            driver.quit()
+            soup = BeautifulSoup(page, "html.parser")
             # get txt from span "class=breadcrumb cible"
-            title = soup.find("div", class_="page-title")
-            print(title)
-            print("aa")
+            title = soup.find("div", class_="page-title").text
             date = soup.find("span", class_="small-text grey").text.replace(
                 "Mis à jour le", ""
             )
-            print(date)
             detail = soup.find("ul", class_="list-2-cols list-unstyled")
             # get all li from ul "class=list-2-cols list-unstyled"
             detail_list = detail.find_all("li")
             price = detail_list[1].text
-            print(price)
             superficie = detail_list[2].text
             type_ = detail_list[3].text
             description = soup.find("div", class_="block-content-wrap").text
