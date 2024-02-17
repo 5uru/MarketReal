@@ -6,8 +6,7 @@ for i in range(119):
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, "html.parser")
     # get url on a "class="card-image ad__card-image waves-block waves-light"
-    results = soup.find_all(
-        "div", class_="property_listing property_unit_type7")
+    results = soup.find_all("div", class_="property_listing property_unit_type7")
     # get "a" on results
     for result in results:
         print(result.a["href"])
@@ -26,10 +25,8 @@ with open("terrain_benin_immo.txt", "r") as file:
             title = soup.find("h1", class_="entry-title entry-prop").text
             price = soup.find("div", class_="price_area").text
             date = soup.find("li", class_="first_overview_date").text
-            superficie = soup.find_all(
-                "ul", class_="overview_element")[-1].text
-            description = soup.find(
-                "div", class_="wpestate_property_description")
+            superficie = soup.find_all("ul", class_="overview_element")[-1].text
+            description = soup.find("div", class_="wpestate_property_description")
             locality = soup.find("div", class_="property_categs").text
             print(superficie)
             # save on csv file

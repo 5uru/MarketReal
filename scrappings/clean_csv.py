@@ -2,7 +2,9 @@ import csv
 import os
 
 # Step 1 & 2: Open the original CSV file in read mode and read it
-with open('terrain_coinafrique.csv', 'r') as inp, open('temp.csv', 'w', newline='') as out:
+with open("terrain_coinafrique.csv", "r") as inp, open(
+    "temp.csv", "w", newline=""
+) as out:
     # Step 3 & 4: Open a new CSV file in write mode
     writer = csv.writer(out)
     # Step 5: Iterate over each row in the original CSV file
