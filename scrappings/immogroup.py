@@ -1,6 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-
 """for i in range(630):
     URL = f"https://immogroup.ahouefa.com/biens-acheter/page/{str(i)}/"
     page = requests.get(URL)
@@ -27,8 +26,7 @@ with open("immogroup.txt", "r") as file:
             print(title)
             print("aa")
             date = soup.find("span", class_="small-text grey").text.replace(
-                "Mis à jour le", ""
-            )
+                "Mis à jour le", "")
             print(date)
             detail = soup.find("ul", class_="list-2-cols list-unstyled")
             # get all li from ul "class=list-2-cols list-unstyled"
