@@ -34,8 +34,7 @@ with open("immogroup.txt", "r") as file:
             # get txt from span "class=breadcrumb cible"
             title = soup.find("div", class_="page-title").text
             date = soup.find("span", class_="small-text grey").text.replace(
-                "Mis à jour le", ""
-            )
+                "Mis à jour le", "")
             detail = soup.find("ul", class_="list-2-cols list-unstyled")
             # get all li from ul "class=list-2-cols list-unstyled"
             detail_list = detail.find_all("li")
