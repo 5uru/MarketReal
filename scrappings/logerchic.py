@@ -22,7 +22,8 @@ with open("logerchic.txt", "r") as file:
             page = requests.get(URL)
             soup = BeautifulSoup(page.content, "html.parser")
             # get txt from span "class=breadcrumb cible"
-            title = soup.find("h2", class_="uk-h3 uk-margin-remove-bottom").text
+            title = soup.find(
+                "h2", class_="uk-h3 uk-margin-remove-bottom").text
             date = soup.find_all("div", class_="uk-margin-small-left")
             for i in date:
                 if "Publi" in i.text:
@@ -34,7 +35,8 @@ with open("logerchic.txt", "r") as file:
             )
             location = soup.find("span", class_="address_details").text
             price = soup.find("span", class_="price1 uk-margin-left").text
-            superficie = soup.find("table", class_="uk-table uk-table-striped").text
+            superficie = soup.find(
+                "table", class_="uk-table uk-table-striped").text
 
             print(date)
             print(location)
