@@ -12,4 +12,3 @@ with open('terrain_coinafrique.csv', 'r') as inp, open('temp.csv', 'w', newline=
             writer.writerow(row)
 
 # Step 7: Close both files (automatically done by 'with' statement)
-
