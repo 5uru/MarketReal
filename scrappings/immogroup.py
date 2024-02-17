@@ -1,8 +1,9 @@
+import time
+
+import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
-import time
 from selenium.webdriver.chrome.options import Options
-import requests
 
 for i in range(630):
     URL = f"https://immogroup.ahouefa.com/biens-acheter/page/{str(i)}/"
