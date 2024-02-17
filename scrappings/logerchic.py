@@ -1,5 +1,5 @@
-from bs4 import BeautifulSoup
 import requests
+from bs4 import BeautifulSoup
 
 for i in range(455):
     URL = f"https://www.logerchic.com/fr/buy-category/terrain/page-{str(i)}.html/"
