@@ -17,8 +17,7 @@ for i in range(119):
             # a with class="card-image ad__card-image waves-block waves-light"
             a = result.a["href"]
             # div with class="card-title ad__card-timesince"
-            div = result.find(
-                "div", class_="card-title ad__card-timesince").text
+            div = result.find("div", class_="card-title ad__card-timesince").text
             # save on txt file
             with open("terrain_coinafrique.txt", "a") as file:
                 file.write(str([a, div]) + "\n")
@@ -71,8 +70,7 @@ with open("terrain_coinafrique.txt", "r") as file:
                 else:
                     numbers = re.findall(r"\d+", line[1])
                     int_numbers = [int(number) for number in numbers]
-                    date = datetime.now() + \
-                        timedelta(days=int_numbers[0] * 365)
+                    date = datetime.now() + timedelta(days=int_numbers[0] * 365)
                 # Write the data to the CSV file
                 writer.writerow([title, description, price, superficie, date])
             except Exception as e:
