@@ -1,7 +1,8 @@
 import ast
 import csv
 import re
-from datetime import datetime, timedelta
+from datetime import datetime
+from datetime import timedelta
 
 import requests
 from bs4 import BeautifulSoup
