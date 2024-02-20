@@ -24,14 +24,16 @@ with open("logerchic.txt", "r") as file:
         writer = csv.writer(file_csv)
 
         # Write the headers to the CSV file
-        writer.writerow(["title", "description", "price", "area", "location", "date"])
+        writer.writerow(["title", "description", "price",
+                        "area", "location", "date"])
         for line in file:
             try:
                 URL = f"https://www.logerchic.com{str(line)}"
                 page = requests.get(URL)
                 soup = BeautifulSoup(page.content, "html.parser")
                 # get txt from span "class=breadcrumb cible"
-                title = soup.find("h2", class_="uk-h3 uk-margin-remove-bottom").text
+                title = soup.find(
+                    "h2", class_="uk-h3 uk-margin-remove-bottom").text
                 date = soup.find_all("div", class_="uk-margin-small-left")
                 for i in date:
                     if "Publi" in i.text:
@@ -43,10 +45,12 @@ with open("logerchic.txt", "r") as file:
                 )
                 location = soup.find("span", class_="address_details").text
                 price = soup.find("span", class_="price1 uk-margin-left").text
-                superficie = soup.find("table", class_="uk-table uk-table-striped").text
+                superficie = soup.find(
+                    "table", class_="uk-table uk-table-striped").text
 
                 # Write the data to the CSV file
-                writer.writerow([title, detail, price, superficie, location, date])
+                writer.writerow(
+                    [title, detail, price, superficie, location, date])
             except Exception as e:
                 print(e)
                 print("An error occurred")

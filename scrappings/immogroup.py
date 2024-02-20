@@ -52,7 +52,8 @@ with open("immogroup.txt", "r") as file:
                 price = detail_list[1].text
                 superficie = detail_list[2].text
                 type_ = detail_list[3].text
-                description = soup.find("div", class_="block-content-wrap").text
+                description = soup.find(
+                    "div", class_="block-content-wrap").text
                 locality = soup.find("address", class_="item-address").text
                 # save on csv file
                 writer.writerow(
