@@ -1,3 +1,4 @@
+import csv
 import time
 
 import requests
@@ -20,37 +21,46 @@ for i in range(630):
 
 # iterate over the txt file
 with open("immogroup.txt", "r") as file:
-    for line in file:
-        try:
-            URL = f"{str(line)}"
-            chrome_options = Options()
-            chrome_options.add_argument("--headless")
-            driver = webdriver.Chrome(options=chrome_options)
-            driver.get(URL)
-            time.sleep(5)
-            page = driver.page_source
-            driver.quit()
-            soup = BeautifulSoup(page, "html.parser")
-            # get txt from span "class=breadcrumb cible"
-            title = soup.find("div", class_="page-title").text
-            date = soup.find("span", class_="small-text grey").text.replace(
-                "Mis à jour le", "")
-            detail = soup.find("ul", class_="list-2-cols list-unstyled")
-            # get all li from ul "class=list-2-cols list-unstyled"
-            detail_list = detail.find_all("li")
-            price = detail_list[1].text
-            superficie = detail_list[2].text
-            type_ = detail_list[3].text
-            description = soup.find("div", class_="block-content-wrap").text
-            locality = soup.find("address", class_="item-address").text
-            # save on csv file
-            with open("immogroup.csv", "a", newline="") as csvfile:
-                csvfile.write(
-                    f"{title}, {price}, {date}, {superficie}, {type_}, {description}, {locality}\n"
+    # Open the CSV file in append mode
+    with open("immogroup.csv", "a", newline="") as file_csv:
+        # Create a writer object
+        writer = csv.writer(file_csv)
+
+        # Write the headers to the CSV file
+        writer.writerow(
+            ["title", "description", "price", "area", "location", "date", "type"]
+        )
+        for line in file:
+            try:
+                URL = f"{str(line)}"
+                chrome_options = Options()
+                chrome_options.add_argument("--headless")
+                driver = webdriver.Chrome(options=chrome_options)
+                driver.get(URL)
+                time.sleep(5)
+                page = driver.page_source
+                driver.quit()
+                soup = BeautifulSoup(page, "html.parser")
+                # get txt from span "class=breadcrumb cible"
+                title = soup.find("div", class_="page-title").text
+                date = soup.find("span", class_="small-text grey").text.replace(
+                    "Mis à jour le", ""
                 )
-            print(title)
-        except Exception as e:
-            print(e)
-            print("An error occurred")
-            continue
+                detail = soup.find("ul", class_="list-2-cols list-unstyled")
+                # get all li from ul "class=list-2-cols list-unstyled"
+                detail_list = detail.find_all("li")
+                price = detail_list[1].text
+                superficie = detail_list[2].text
+                type_ = detail_list[3].text
+                description = soup.find("div", class_="block-content-wrap").text
+                locality = soup.find("address", class_="item-address").text
+                # save on csv file
+                writer.writerow(
+                    [title, description, price, superficie, locality, date, type_]
+                )
+                print(title)
+            except Exception as e:
+                print(e)
+                print("An error occurred")
+                continue
     file.close()
