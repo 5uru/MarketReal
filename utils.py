@@ -17,6 +17,11 @@ def create_table():
 
 
 def find_addresses(city):
+    """
+
+    :param city: 
+
+    """
     # Encoder les paramètres de la requête
     params = urlencode({"q": f"{city}, Benin", "format": "json"})
 
@@ -37,6 +42,11 @@ def find_addresses(city):
 
 
 def get_location_details(city_name):
+    """
+
+    :param city_name: 
+
+    """
     create_table()  # Assurez-vous que la table existe
     conn = sqlite3.connect("geo.db")
     c = conn.cursor()
