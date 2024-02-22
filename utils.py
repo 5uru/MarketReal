@@ -19,7 +19,7 @@ def create_table():
 def find_addresses(city):
     """
 
-    :param city: 
+    :param city:
 
     """
     # Encoder les paramètres de la requête
@@ -44,7 +44,7 @@ def find_addresses(city):
 def get_location_details(city_name):
     """
 
-    :param city_name: 
+    :param city_name:
 
     """
     create_table()  # Assurez-vous que la table existe
