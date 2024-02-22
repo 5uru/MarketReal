@@ -1,5 +1,6 @@
-from geopy.geocoders import Nominatim
 import sqlite3
+import requests
+from urllib.parse import urlencode
 
 
 def create_table():
@@ -14,6 +15,26 @@ def create_table():
     conn.close()
 
 
+def find_addresses(city):
+    # Encoder les paramètres de la requête
+    params = urlencode({"q": f"{city}, Benin", "format": "json"})
+
+    # Construire l'URL de la requête
+    base_url = "https://nominatim.openstreetmap.org/search"
+    complete_url = f"{base_url}?{params}"
+
+    # Définir les en-têtes pour respecter la politique d'utilisation de Nominatim
+    headers = {"User-Agent": "MarketReal. Email: jonathan_suru@proton.me"}
+
+    # Envoyer la requête et récupérer la réponse
+    response = requests.get(complete_url, headers=headers)
+
+    # Convertir la réponse en JSON
+    results = response.json()
+
+    return [result["display_name"] for result in results]
+
+
 def get_location_details(city_name):
     create_table()  # Assurez-vous que la table existe
     conn = sqlite3.connect("geo.db")
@@ -21,28 +42,23 @@ def get_location_details(city_name):
 
     # Vérifier si la ville existe déjà dans la base de données
     c.execute("SELECT location FROM locations WHERE city = ?", (city_name,))
-    row = c.fetchone()
-    if row:
+    if row := c.fetchone():
         conn.close()
         return row[0]  # Retourner les informations de localisation
 
-    # Initialiser l'API Nominatim
-    geolocator = Nominatim(user_agent="geoapiExercises")
-    location_query = f"{city_name}, Benin"
-
-    if location := geolocator.geocode(location_query):
-        location_details = geolocator.reverse(
-            [location.latitude, location.longitude], language="fr"
-        )
-        address = location_details.address
-
+    if address := find_addresses(city_name):
+        address_str = "\n".join(
+            address
+        )  # Utilisez "\n" pour séparer les adresses par des lignes
+        print(address_str)
         # Enregistrer les détails de localisation dans la base de données
         c.execute(
-            "INSERT INTO locations (city, location) VALUES (?, ?)", (city_name, address)
+            "INSERT INTO locations (city, location) VALUES (?, ?)",
+            (city_name, address_str),
         )
         conn.commit()
         conn.close()
-        return address
+        return str(address)
     else:
         conn.close()
         return None
