@@ -1,6 +1,7 @@
 import sqlite3
-import requests
 from urllib.parse import urlencode
+
+import requests
 
 
 def create_table():
