@@ -8,10 +8,8 @@ def create_table():
     """Créer la table de localisation si elle n'existe pas."""
     conn = sqlite3.connect("geo.db")
     c = conn.cursor()
-    c.execute(
-        """CREATE TABLE IF NOT EXISTS locations
-                 (city TEXT PRIMARY KEY, location TEXT)"""
-    )
+    c.execute("""CREATE TABLE IF NOT EXISTS locations
+                 (city TEXT PRIMARY KEY, location TEXT)""")
     conn.commit()
     conn.close()
 
@@ -52,15 +50,14 @@ def get_location_details(city_name):
     c = conn.cursor()
 
     # Vérifier si la ville existe déjà dans la base de données
-    c.execute("SELECT location FROM locations WHERE city = ?", (city_name,))
+    c.execute("SELECT location FROM locations WHERE city = ?", (city_name, ))
     if row := c.fetchone():
         conn.close()
         return row[0]  # Retourner les informations de localisation
 
     if address := find_addresses(city_name):
         address_str = "\n".join(
-            address
-        )  # Utilisez "\n" pour séparer les adresses par des lignes
+            address)  # Utilisez "\n" pour séparer les adresses par des lignes
         print(address_str)
         # Enregistrer les détails de localisation dans la base de données
         c.execute(
